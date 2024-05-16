@@ -50,13 +50,13 @@ def get_logger() -> logging.Logger:
     get logger function
     """
 
-    user_data = logging.getLogger(__name__)
-    user_data.setLevel(logging.INFO)
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
 
     handler = logging.StreamHandler()
     handler.setLevel(logging.INFO)
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
 
-    user_data.addHandler(handler)
+    logger.addHandler(handler)
 
-    return user_data
+    return logger
