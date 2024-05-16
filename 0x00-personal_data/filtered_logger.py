@@ -38,4 +38,6 @@ class RedactingFormatter(logging.Formatter):
         """
         costume formatter
         """
-        return filter_datum(self.fields, self.REDACTION, str(record), self.SEPARATOR)
+        message = super().format(record)
+        return filter_datum(self.fields,
+                            self.REDACTION, message, self.SEPARATOR)
