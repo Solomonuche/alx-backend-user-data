@@ -3,6 +3,7 @@
 Regex-ing module
 """
 import re
+import logging
 from typing import List
 
 
@@ -14,6 +15,27 @@ def filter_datum(fields: List[str],
     a function that returns a log message obfuscated
     """
     for field in fields:
-        pattern = rf'{field}=([^;]*)'
+        pattern = rf'{field}=([^{separator}]*)'
         message = re.sub(pattern, f"{field}={redaction}", message)
     return message
+
+
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class
+    """
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self, fields):
+        """ constructor
+        """
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+        self.fields = fields
+
+    def format(self, record: logging.LogRecord) -> str:
+        """
+        costume formatter
+        """
+        return filter_datum(self.fields, self.REDACTION, str(record), self.SEPARATOR)
