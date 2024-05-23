@@ -4,6 +4,8 @@ Basic authentication implementation
 """
 from api.v1.auth.auth import Auth
 import base64
+from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -53,3 +55,24 @@ class BasicAuth(Auth):
             return (email, password)
         except Exception:
             return None, None
+
+    def user_object_from_credentials(self, user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """
+        returns the User instance based on his email and password.
+        """
+        if not user_email or type(user_email) != str:
+            return None
+        if not user_pwd or type(user_pwd) != str:
+            return None
+        if len(User.all()) == 0:
+            return None
+
+        user = User.search({"email": user_email})
+        # the User search fuction returns a list
+        if not user:
+            return None
+        if user[0].is_valid_password(user_pwd) is False:
+            return None
+
+        return user[0]
