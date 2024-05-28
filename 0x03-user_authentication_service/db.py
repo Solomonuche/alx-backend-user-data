@@ -34,8 +34,8 @@ class DB:
         """
         create a user instance
         """
-        user = User(email=email, hashed_password=hashed_password,
-                    session_id=None, reset_token=None)
-        self._session.add(user)
-        self._session.commit()
+        session = self._session
+        user = User(email=email, hashed_password=hashed_password)
+        session.add(user)
+        session.commit()
         return user
