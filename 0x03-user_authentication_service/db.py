@@ -38,4 +38,4 @@ class DB:
         user = User(email=email, hashed_password=hashed_password)
         session.add(user)
         session.commit()
-        return user if user else None
+        return user
