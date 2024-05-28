@@ -34,9 +34,7 @@ class DB:
         """
         create a user instance
         """
-        user = User()
-        user.email = email
-        user.hashed_password = hashed_password
+        user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
