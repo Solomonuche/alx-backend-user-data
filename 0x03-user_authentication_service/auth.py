@@ -87,7 +87,7 @@ class Auth:
 
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
+    def get_user_from_session_id(self, session_id: str) -> Union[str, None]:
         """
         Find user by session ID
         """
