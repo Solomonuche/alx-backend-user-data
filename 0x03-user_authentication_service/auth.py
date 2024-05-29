@@ -4,9 +4,9 @@ Auth module
 """
 import bcrypt
 from db import DB
+from typing import Union
 from user import User
 from uuid import uuid4
-from typing import Union
 
 
 def _hash_password(password: str) -> bytes:
@@ -87,7 +87,7 @@ class Auth:
 
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> Union[str, None]:
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """
         Find user by session ID
         """
