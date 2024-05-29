@@ -17,6 +17,7 @@ def index():
     """
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route('/users', methods=['POST'], strict_slashes=False)
 def users():
     """
@@ -26,7 +27,7 @@ def users():
         data = request.form
         email = data.get('email')
         password = data.get('password')
-        
+
         user = AUTH.register_user(email, password)
         data = {"email": f"{email}", "message": "user created"}
         return jsonify(data)
