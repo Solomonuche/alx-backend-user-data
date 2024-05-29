@@ -26,6 +26,11 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """register a new user
         """
+        if not email or not isinstance(email, str):
+            raise None
+        if not password or not isinstance(password, str):
+            return None
+
         user = None
         # check if a user exist
         try:
