@@ -92,7 +92,7 @@ class Auth:
         Find user by session ID
         """
         if not session_id or not isinstance(session_id, str):
-            raise None
+            return None
         user = None
         try:
             user = self._db.find_user_by(session_id=session_id)
