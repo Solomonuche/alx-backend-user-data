@@ -38,9 +38,14 @@ class DB:
         """
         session = self._session
         user = User(email=email, hashed_password=hashed_password)
-        session.add(user)
-        session.commit()
-        return user
+        try:
+            session.add(user)
+            session.commit()
+            return user
+        except Exception:
+            session.rollback()
+            user = None
+            return user
 
     def find_user_by(self, **kwargs) -> User:
         """
@@ -50,11 +55,26 @@ class DB:
         session = self._session
         if not kwargs:
             raise InvalidRequestError
+
         for key in kwargs.keys():
-            if key not in User.__table__.columns:
+            if not hasattr(User, key):
                 raise InvalidRequestError
+
         user = session.query(User).filter_by(**kwargs).first()
         if user:
             return user
         else:
             raise NoResultFound
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        update user
+        """
+
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+
+        self._session.commit()
