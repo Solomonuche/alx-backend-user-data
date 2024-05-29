@@ -37,15 +37,14 @@ class DB:
         create a user instance
         """
         session = self._session
-        user = User(email=email, hashed_password=hashed_password)
         try:
+            user = User(email=email, hashed_password=hashed_password)
             session.add(user)
             session.commit()
-            return user
         except Exception:
             session.rollback()
             user = None
-            return user
+        return user
 
     def find_user_by(self, **kwargs) -> User:
         """
@@ -78,3 +77,4 @@ class DB:
             setattr(user, key, value)
 
         self._session.commit()
+        return None
