@@ -126,7 +126,7 @@ class Auth:
             return reset_token
         raise ValueError
 
-    def update_password(reset_token: str, password: str) -> None:
+    def update_password(self, reset_token: str, password: str) -> None:
         """
         Update password
         """
