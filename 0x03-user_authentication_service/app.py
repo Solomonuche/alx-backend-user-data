@@ -55,7 +55,7 @@ def login():
         abort(401)
 
 
-@@app.route("/sessions", methods=['DELETE'], strict_slashes=False)
+@app.route("/sessions", methods=['DELETE'], strict_slashes=False)
 def logout():
     """
     logout user
@@ -63,6 +63,8 @@ def logout():
     user = None
     try:
         session_id = request.cookies.get('session_id')
+        if session_id is None:
+            abort(403)
         user = AUTH.get_user_from_session_id(session_id)
     except Exception:
         pass
